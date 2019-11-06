@@ -2,6 +2,7 @@ package net.iessochoa.manuelmartinez.practica5.modelo;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
@@ -104,8 +105,8 @@ public class DiarioDB {
 
     //CRUD del sql
 
-    //Inserta nuevo Dia en el diario pasado por parametro o lo actualiza si ya existe
-    public void anyadeActualizaDia(DiaDiario dia) throws SQLiteException, SQLiteConstraintException {
+    //Inserta nuevo Dia en el diario pasado por parametro
+    public void insertaDia(DiaDiario dia) throws SQLiteException, SQLiteConstraintException {
         ContentValues values = new ContentValues();
         if (!dia.getFecha().equals("")) {
             values.put(DiaDiarioEntries.FECHA, fechaToFechaDB(dia.getFecha()));
@@ -116,8 +117,52 @@ public class DiarioDB {
         values.put(DiaDiarioEntries.FOTO_URI, dia.getFotoUri());
         values.put(DiaDiarioEntries.LATITUD, dia.getLatitud());
         values.put(DiaDiarioEntries.LONGITUD, dia.getLongitud());
+        //Si queremos que salte la excepción en caso de problemas en la insercción
+        //tenemos que utilizar insertOrThrow, en otro caso podemos utilizar insert
+        db.insertOrThrow(DiaDiarioEntries.TABLE_NAME, null, values);
 
     }
+
+    //Actualiza el dia pasado por parametro
+    public void actualizaDia(DiaDiario dia) throws SQLiteException, SQLiteConstraintException {
+        //valores a modificar
+        ContentValues values = new ContentValues();
+        if (!dia.getFecha().equals("")) {
+            values.put(DiaDiarioEntries.FECHA, fechaToFechaDB(dia.getFecha()));
+        }
+        values.put(DiaDiarioEntries.VALORACION, dia.getValoracionResumida());
+        values.put(DiaDiarioEntries.RESUMEN, dia.getResumen());
+        values.put(DiaDiarioEntries.CONTENIDO, dia.getContenido());
+        values.put(DiaDiarioEntries.FOTO_URI, dia.getFotoUri());
+        values.put(DiaDiarioEntries.LATITUD, dia.getLatitud());
+        values.put(DiaDiarioEntries.LONGITUD, dia.getLongitud());
+        //sentencia where
+        String where = DiaDiarioEntries.FECHA + "=?";
+        String[] arg = new String[]{fechaToFechaDB(dia.getFecha())};
+        //actualizamos
+        db.update(DiaDiarioEntries.TABLE_NAME, values, where, arg);
+    }
+
+    //Borra un dia pasado por parametro
+    public void borraDia(DiaDiario dia) throws SQLiteException, SQLiteConstraintException {
+        db.delete(DiaDiarioEntries.TABLE_NAME, DiaDiarioEntries.FECHA + "= ?", new String[]{fechaToFechaDB(dia.getFecha())});
+    }
+
+    //Cursor
+    public Cursor getCursorDia(String id) throws SQLiteException {
+        String where = null;
+        String[] argWhere = null;
+        if (id != null) {
+            where = DiaDiarioEntries.ID + "= ?";
+            argWhere = new String[]{id};
+        }
+        Cursor cursor = db.query(DiaDiarioEntries.TABLE_NAME, null, where, argWhere, null, null, null);
+        //close();
+        return cursor;
+        //otra forma
+        //return db.rawQuery("SELECT * FROM ALUMNOS "+where,argWhere);
+    }
+
 
 
 }
