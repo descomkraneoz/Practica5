@@ -33,7 +33,7 @@ public class DiarioDB {
             DiaDiarioEntries.LONGITUD + " TEXT" +
             ")";
 
-    private final static String SQL_DELETE_TABLE = "DROP TABLE IF EXISTS" + DiaDiarioEntries.TABLE_NAME;
+    private final static String SQL_DELETE_TABLE = "DROP TABLE IF EXISTS " + DiaDiarioEntries.TABLE_NAME;
 
 
     //DBHelper
@@ -107,8 +107,16 @@ public class DiarioDB {
     //Inserta nuevo Dia en el diario pasado por parametro o lo actualiza si ya existe
     public void anyadeActualizaDia(DiaDiario dia) throws SQLiteException, SQLiteConstraintException {
         ContentValues values = new ContentValues();
-        values.put(DiaDiarioEntries.FECHA, fechaToFechaDB(dia.getFecha()));
-        //por aqui
+        if (!dia.getFecha().equals("")) {
+            values.put(DiaDiarioEntries.FECHA, fechaToFechaDB(dia.getFecha()));
+        }
+        values.put(DiaDiarioEntries.VALORACION, dia.getValoracionResumida());
+        values.put(DiaDiarioEntries.RESUMEN, dia.getResumen());
+        values.put(DiaDiarioEntries.CONTENIDO, dia.getContenido());
+        values.put(DiaDiarioEntries.FOTO_URI, dia.getFotoUri());
+        values.put(DiaDiarioEntries.LATITUD, dia.getLatitud());
+        values.put(DiaDiarioEntries.LONGITUD, dia.getLongitud());
+
     }
 
 
