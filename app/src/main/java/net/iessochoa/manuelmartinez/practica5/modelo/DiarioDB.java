@@ -163,6 +163,6 @@ public class DiarioDB {
         //return db.rawQuery("SELECT * FROM ALUMNOS "+where,argWhere);
     }
 
-
+    //x aki
 
 }
