@@ -30,7 +30,7 @@ public class DiarioDB {
             DiaDiarioEntries.CONTENIDO + " TEXT," +
             DiaDiarioEntries.FOTO_URI + " TEXT," +
             DiaDiarioEntries.LATITUD + " TEXT," +
-            DiaDiarioEntries.LONGITUD + " TEXT," +
+            DiaDiarioEntries.LONGITUD + " TEXT" +
             ")";
 
     private final static String SQL_DELETE_TABLE = "DROP TABLE IF EXISTS" + DiaDiarioEntries.TABLE_NAME;
