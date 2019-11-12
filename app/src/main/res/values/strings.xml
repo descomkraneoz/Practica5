@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">Practica5</string>
+    <string name="Anyadir">Añadir</string>
+    <string name="ordenar">a>z</string>
+    <string name="acercadeTitulo">Acerca de</string>
+    <string name="acercadeMensaje">"Práctica 5 &#10;""Manuel Martínez Serrano &#10;""Licencia cc (Creative Commons)"</string>
+    <string name="tmMensajeERROR">NO HACE NADA :)</string>
+    <string name="btBorrar">Borrar</string>
+    <string name="resumen">Resumen</string>
+    <string name="valoracion">Valoración</string>
+    <string name="fecha">Fecha</string>
+    <string name="valorarVida">Valorar Vida</string>
+    <string name="mostrarDesdeHasta">Mostrar desde hasta</string>
+    <string name="opciones">Opciones </string>
+
+
 </resources>

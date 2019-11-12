@@ -176,7 +176,7 @@ public class DiarioDB {
         indiceColumna = cursor.getColumnIndex(DiaDiarioEntries.FECHA);
         Date fecha = fechaBDtoFecha(cursor.getString(indiceColumna));
         indiceColumna = cursor.getColumnIndex(DiaDiarioEntries.VALORACION);
-        int valoracion = Integer.parseInt(cursor.getString(indiceColumna));
+        int valoracion = cursor.getInt(indiceColumna);
         indiceColumna = cursor.getColumnIndex(DiaDiarioEntries.RESUMEN);
         String resumen = cursor.getString(indiceColumna);
         indiceColumna = cursor.getColumnIndex(DiaDiarioEntries.CONTENIDO);
