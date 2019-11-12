@@ -163,6 +163,33 @@ public class DiarioDB {
         //return db.rawQuery("SELECT * FROM ALUMNOS "+where,argWhere);
     }
 
-    //x aki
+    /**
+     * Dada una posición del cursor, nos devuelve un objeto Dia
+     */
+    public static DiaDiario deCursorADia(Cursor cursor) {
+        int indiceColumna;
+        //obtenemos la posicion de la columna id
+        indiceColumna = cursor.getColumnIndex(DiaDiarioEntries.ID);
+        //obtenemos el valor del id
+        String id = cursor.getString(indiceColumna);
+        //obtenemos el resto de posiciones de las columnas
+        indiceColumna = cursor.getColumnIndex(DiaDiarioEntries.FECHA);
+        Date fecha = fechaBDtoFecha(cursor.getString(indiceColumna));
+        indiceColumna = cursor.getColumnIndex(DiaDiarioEntries.VALORACION);
+        int valoracion = Integer.parseInt(cursor.getString(indiceColumna));
+        indiceColumna = cursor.getColumnIndex(DiaDiarioEntries.RESUMEN);
+        String resumen = cursor.getString(indiceColumna);
+        indiceColumna = cursor.getColumnIndex(DiaDiarioEntries.CONTENIDO);
+        String contenido = cursor.getString(indiceColumna);
+        indiceColumna = cursor.getColumnIndex(DiaDiarioEntries.FOTO_URI);
+        String foto = cursor.getString(indiceColumna);
+        indiceColumna = cursor.getColumnIndex(DiaDiarioEntries.LATITUD);
+        String latitud = cursor.getString(indiceColumna);
+        indiceColumna = cursor.getColumnIndex(DiaDiarioEntries.LONGITUD);
+        String longitud = cursor.getString(indiceColumna);
+
+        return new DiaDiario(fecha, valoracion, resumen, contenido, foto, latitud, longitud);
+
+    }
 
 }
