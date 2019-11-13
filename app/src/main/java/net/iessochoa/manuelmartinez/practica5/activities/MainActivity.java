@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     Button btAnyadir;
     Button btOrdenar;
     Button btBorrar;
+    TextView tvPrincipal;
 
     //Voy x crear la Activity EdicionDiaActivity
 
@@ -36,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         btAnyadir = findViewById(R.id.btAnyadir);
         btOrdenar = findViewById(R.id.btOrdenar);
         btBorrar = findViewById(R.id.btBorrar);
+        tvPrincipal = findViewById(R.id.tvPrincipal);
 
         //BASE DE DATOS
         db = new DiarioDB(this);
