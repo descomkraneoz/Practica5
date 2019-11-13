@@ -2,6 +2,7 @@ package net.iessochoa.manuelmartinez.practica5.activities;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,6 +15,9 @@ import net.iessochoa.manuelmartinez.practica5.R;
 import net.iessochoa.manuelmartinez.practica5.modelo.DiarioDB;
 
 public class MainActivity extends AppCompatActivity {
+    public final static int REQUEST_OPTION_NUEVA_ENTRADA_DIARIO = 0;
+    public static final int REQUEST_OPTION_EDITAR_ENTRADA_DIARIO = 1;
+    public static String STATE_LISTA_POBLACIONES = "net.iessochoa.manuelmartinez.practica5.activities.EdicionDiaActivity.lista_dias";
 
     private DiarioDB db;
     Button btAcercade;
@@ -77,8 +81,8 @@ public class MainActivity extends AppCompatActivity {
      */
 
     public void agregaPoblacion() {
-        //Intent intent = new Intent(MainActivity.this, PoblacionActivity.class);
-        //startActivityForResult(intent, REQUEST_OPTION_NUEVA_POBLACIONES);
+        Intent intent = new Intent(MainActivity.this, EdicionDiaActivity.class);
+        startActivityForResult(intent, REQUEST_OPTION_NUEVA_ENTRADA_DIARIO);
     }
 
     /**
@@ -95,6 +99,18 @@ public class MainActivity extends AppCompatActivity {
                 agregaPoblacion();
                 break;
             case R.id.btOrdenar:
+                Toast.makeText(getApplicationContext(), getResources().getText(R.string.tmMensajeERROR), Toast.LENGTH_LONG).show();
+                break;
+            case R.id.btBorrar:
+                Toast.makeText(getApplicationContext(), getResources().getText(R.string.tmMensajeERROR), Toast.LENGTH_LONG).show();
+                break;
+            case R.id.btValorarVida:
+                Toast.makeText(getApplicationContext(), getResources().getText(R.string.tmMensajeERROR), Toast.LENGTH_LONG).show();
+                break;
+            case R.id.btMostrarDesdeHasta:
+                Toast.makeText(getApplicationContext(), getResources().getText(R.string.tmMensajeERROR), Toast.LENGTH_LONG).show();
+                break;
+            case R.id.btOpciones:
                 Toast.makeText(getApplicationContext(), getResources().getText(R.string.tmMensajeERROR), Toast.LENGTH_LONG).show();
                 break;
         }

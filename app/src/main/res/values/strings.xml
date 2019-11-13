@@ -12,6 +12,8 @@
     <string name="valorarVida">Valorar Vida</string>
     <string name="mostrarDesdeHasta">Mostrar desde hasta</string>
     <string name="opciones">Opciones </string>
+    <string name="resumenbreve">Resumen breve del día</string>
+    <string name="cuenta">Cuenta a tu diario tu día ...</string>
 
 
 </resources>
