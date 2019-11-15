@@ -81,7 +81,9 @@ public class DiarioDB {
         }
     }
 
-    //Metodo para la fecha
+    /**
+     * Metodos para la fecha
+     */
 
     public static Date fechaBDtoFecha(String f) {
         SimpleDateFormat formatoDelTexto = new SimpleDateFormat("dd/MM/yyyy");
@@ -103,9 +105,11 @@ public class DiarioDB {
     }
 
 
-    //CRUD del sql
+    /**
+     * CRUD del sql
+     */
 
-    //Inserta nuevo Dia en el diario pasado por parametro
+    //Inserta nuevo Dia en el diario pasado por parametro o lo actualiza si ya existe
     public void insertaDia(DiaDiario dia) throws SQLiteException, SQLiteConstraintException {
         ContentValues values = new ContentValues();
         if (!dia.getFecha().equals("")) {
@@ -128,26 +132,6 @@ public class DiarioDB {
             db.update(DiaDiarioEntries.TABLE_NAME, values, where, arg);
         }
 
-    }
-
-    //Actualiza el dia pasado por parametro
-    public void actualizaDia(DiaDiario dia) throws SQLiteException, SQLiteConstraintException {
-        //valores a modificar
-        ContentValues values = new ContentValues();
-        if (!dia.getFecha().equals("")) {
-            values.put(DiaDiarioEntries.FECHA, fechaToFechaDB(dia.getFecha()));
-        }
-        values.put(DiaDiarioEntries.VALORACION, dia.getValoracionResumida());
-        values.put(DiaDiarioEntries.RESUMEN, dia.getResumen());
-        values.put(DiaDiarioEntries.CONTENIDO, dia.getContenido());
-        values.put(DiaDiarioEntries.FOTO_URI, dia.getFotoUri());
-        values.put(DiaDiarioEntries.LATITUD, dia.getLatitud());
-        values.put(DiaDiarioEntries.LONGITUD, dia.getLongitud());
-        //sentencia where
-        String where = DiaDiarioEntries.FECHA + "=?";
-        String[] arg = new String[]{fechaToFechaDB(dia.getFecha())};
-        //actualizamos
-        db.update(DiaDiarioEntries.TABLE_NAME, values, where, arg);
     }
 
     //Borra un dia pasado por parametro

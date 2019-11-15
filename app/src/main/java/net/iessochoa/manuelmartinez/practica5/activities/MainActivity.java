@@ -144,9 +144,9 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /*
+    /**
      * Metodo para mostrar
-     * */
+     */
 
     private void mostrarDias(String ordenadoPor) {
         Cursor c = db.obtenDiario(ordenadoPor);
@@ -158,7 +158,8 @@ public class MainActivity extends AppCompatActivity {
             do {
                 dia = DiarioDB.deCursorADia(c);
                 //podéis sobrecargar toString en DiaDiario para mostrar los datos
-                tvPrincipal.append(dia.toString() + "\n");
+                //tvPrincipal.append(dia.toString() + "\n");
+                tvPrincipal.append(dia.mostrarDatosBonitos() + "\n");
             } while (c.moveToNext());
         }
     }
@@ -171,6 +172,12 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.btFecha:
                         mostrarDias(DiarioContract.DiaDiarioEntries.FECHA);
                         break;
+                    case R.id.btValoracion:
+                        mostrarDias(DiarioContract.DiaDiarioEntries.VALORACION);
+                        break;
+                    case R.id.btResumen:
+                        mostrarDias(DiarioContract.DiaDiarioEntries.RESUMEN);
+                        break;
                 }
 
             }
@@ -180,8 +187,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void cargarDatosDePrueba() {
         DiaDiario d = new DiaDiario(new Date("11/02/2002"),
-                5, "Esto es una mierda",
-                "Ruben dice que ninguno");
+                5, "Examen de Lenguaje de Marcas",
+                "Los temas que entran son HTML y CSS, deberas hacer una página" +
+                        " web con la estructura típica, y contestar veinte preguntas de " +
+                        "tipo test en 30 minutos");
         db.insertaDia(d);
     }
 
@@ -193,8 +202,7 @@ public class MainActivity extends AppCompatActivity {
                 case REQUEST_OPTION_NUEVA_ENTRADA_DIARIO:
                     DiaDiario p = data.getParcelableExtra(EdicionDiaActivity.EXTRA_DIA_A_GUARDAR);
                     db.insertaDia(p);
-                    //tvPrincipal=mostrarDias("fecha");
-
+                    mostrarDias(DiarioContract.DiaDiarioEntries.FECHA);
                     break;
                 /*case REQUEST_OPTION_EDITAR_POBLACIONES:
                     Poblacion pi = data.getParcelableExtra(PoblacionActivity.EXTRA_POBLACION_A_GUARDAR);

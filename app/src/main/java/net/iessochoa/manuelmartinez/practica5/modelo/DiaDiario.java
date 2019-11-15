@@ -3,6 +3,8 @@ package net.iessochoa.manuelmartinez.practica5.modelo;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 
@@ -107,10 +109,15 @@ public class DiaDiario implements Parcelable {
         }
     }
 
+    public static String fechaToFechaDB(Date fecha) {
+        DateFormat f = new SimpleDateFormat("dd/MM/yyyy");
+        return f.format(fecha);
+    }
+
     @Override
     public String toString() {
         return "DiaDiario{" +
-                "fecha=" + fecha +
+                "fecha=" + fechaToFechaDB(fecha) +
                 ", valoracionDia=" + getValoracionResumida() +
                 ", resumen='" + resumen + '\'' +
                 ", contenido='" + contenido + '\'' +
@@ -120,12 +127,19 @@ public class DiaDiario implements Parcelable {
                 '}';
     }
 
+    public String mostrarDatosBonitos() {
+        return fechaToFechaDB(fecha) + "\n" +
+                "VALORACIÓN DEL DÍA: " + getValoracionResumida() + "\n" +
+                "BREVE RESUMEN: " + resumen + "\n" +
+                "CONTENIDO: " + contenido;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         DiaDiario diaDiario = (DiaDiario) o;
-        return fecha.equals(diaDiario.fecha);
+        return fechaToFechaDB(fecha).equals(diaDiario.fechaToFechaDB(fecha));
     }
 
     @Override
@@ -143,6 +157,7 @@ public class DiaDiario implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(fechaToFechaDB(fecha));
         parcel.writeInt(valoracionDia);
         parcel.writeString(resumen);
         parcel.writeString(contenido);
@@ -152,6 +167,7 @@ public class DiaDiario implements Parcelable {
     }
 
     protected DiaDiario(Parcel in) {
+        fecha = new Date(in.readString());
         valoracionDia = in.readInt();
         resumen = in.readString();
         contenido = in.readString();
