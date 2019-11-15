@@ -10,9 +10,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import net.iessochoa.manuelmartinez.practica5.R;
+import net.iessochoa.manuelmartinez.practica5.modelo.DiaDiario;
 import net.iessochoa.manuelmartinez.practica5.modelo.DiarioDB;
 
 public class MainActivity extends AppCompatActivity {
@@ -27,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
     Button btBorrar;
     TextView tvPrincipal;
 
-    //Voy x crear la Activity EdicionDiaActivity
 
 
     @Override
@@ -83,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
      * Metodo del boton (+) del menu que llama a la PoblacionActivity
      */
 
-    public void agregaPoblacion() {
+    public void agregaDiaDiario() {
         Intent intent = new Intent(MainActivity.this, EdicionDiaActivity.class);
         startActivityForResult(intent, REQUEST_OPTION_NUEVA_ENTRADA_DIARIO);
     }
@@ -99,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
                 MensajeAcercade();
                 break;
             case (R.id.btAnyadir):
-                agregaPoblacion();
+                agregaDiaDiario();
                 break;
             case R.id.btOrdenar:
                 Toast.makeText(getApplicationContext(), getResources().getText(R.string.tmMensajeERROR), Toast.LENGTH_LONG).show();
@@ -118,5 +119,45 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * Metodos CRUD del ActivityMain
+     */
+
+    private void anyadirDia(DiaDiario d) {
+        if (db.equals(d)) {
+            db.borraDia(d);
+        }
+        db.insertaDia(d);
+        //adaptador.notifyDataSetChanged();
+    }
+
+    private void borrarDia(DiaDiario d) {
+        db.borraDia(d);
+        //adaptador.notifyDataSetChanged();
+    }
+
+    private void editarDia(final DiaDiario d) {
+        db.actualizaDia(d);
+        //adaptador.notifyDataSetChanged();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case REQUEST_OPTION_NUEVA_ENTRADA_DIARIO:
+                    DiaDiario p = data.getParcelableExtra(EdicionDiaActivity.EXTRA_DIA_A_GUARDAR);
+                    anyadirDia(p);
+                    break;
+                /*case REQUEST_OPTION_EDITAR_POBLACIONES:
+                    Poblacion pi = data.getParcelableExtra(PoblacionActivity.EXTRA_POBLACION_A_GUARDAR);
+                    editarPoblacion(pi);
+                    lvListaPoblaciones.getAdapter();
+                    break;*/
+            }
+        }
     }
 }

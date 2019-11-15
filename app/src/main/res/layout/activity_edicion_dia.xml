@@ -40,6 +40,7 @@
         android:ems="10"
         android:hint="@string/resumenbreve"
         android:inputType="textPersonName"
+        android:maxLength="@integer/maxLongitud"
         android:maxLines="@integer/maxLineas"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.378"
@@ -102,4 +103,22 @@
                 android:scrollbars="vertical" />
         </LinearLayout>
     </ScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabGuardar"
+        android:layout_width="54dp"
+        android:layout_height="54dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:clickable="true"
+        app:backgroundTint="#E91E63"
+        app:borderWidth="0.5dp"
+        app:elevation="6dp"
+        app:fabSize="normal"
+        app:hoveredFocusedTranslationZ="6dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:maxImageSize="40dp"
+        app:pressedTranslationZ="6dp"
+        app:srcCompat="@android:drawable/ic_menu_save" />
 </androidx.constraintlayout.widget.ConstraintLayout>
