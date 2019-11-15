@@ -84,7 +84,7 @@ public class DiarioDB {
     //Metodo para la fecha
 
     public static Date fechaBDtoFecha(String f) {
-        SimpleDateFormat formatoDelTexto = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat formatoDelTexto = new SimpleDateFormat("dd/MM/yyyy");
         Date fecha = null;
         try {
             fecha = formatoDelTexto.parse(f);
@@ -98,7 +98,7 @@ public class DiarioDB {
     }
 
     public static String fechaToFechaDB(Date fecha) {
-        DateFormat f = new SimpleDateFormat("yyyy-MM-dd");
+        DateFormat f = new SimpleDateFormat("dd/MM/yyyy");
         return f.format(fecha);
     }
 
@@ -119,7 +119,14 @@ public class DiarioDB {
         values.put(DiaDiarioEntries.LONGITUD, dia.getLongitud());
         //Si queremos que salte la excepción en caso de problemas en la insercción
         //tenemos que utilizar insertOrThrow, en otro caso podemos utilizar insert
-        db.insertOrThrow(DiaDiarioEntries.TABLE_NAME, null, values);
+        try {
+            db.insertOrThrow(DiaDiarioEntries.TABLE_NAME, null, values);
+        } catch (SQLiteException sql) {
+            String where = DiaDiarioEntries.FECHA + "=?";
+            String[] arg = new String[]{fechaToFechaDB(dia.getFecha())};
+            //actualizamos
+            db.update(DiaDiarioEntries.TABLE_NAME, values, where, arg);
+        }
 
     }
 
@@ -148,19 +155,33 @@ public class DiarioDB {
         db.delete(DiaDiarioEntries.TABLE_NAME, DiaDiarioEntries.FECHA + "= ?", new String[]{fechaToFechaDB(dia.getFecha())});
     }
 
-    //Cursor
-    public Cursor getCursorDia(String id) throws SQLiteException {
-        String where = null;
+    //Cursor para mostrar un dia
+    public Cursor obtenDiario(String ordenadoPor) throws SQLiteException {
+       /* String where = null;
         String[] argWhere = null;
-        if (id != null) {
+        if (ordenadoPor != null) {
             where = DiaDiarioEntries.ID + "= ?";
-            argWhere = new String[]{id};
+            argWhere = new String[]{ordenadoPor};
         }
-        Cursor cursor = db.query(DiaDiarioEntries.TABLE_NAME, null, where, argWhere, null, null, null);
-        //close();
-        return cursor;
-        //otra forma
-        //return db.rawQuery("SELECT * FROM ALUMNOS "+where,argWhere);
+        Cursor cursor;
+        switch (ordenadoPor){
+            case DiarioContract.DiaDiarioEntries.FECHA:
+                cursor=db.query(DiaDiarioEntries.TABLE_NAME, null, where, argWhere, null, null, DiaDiarioEntries.FECHA);
+                return cursor;
+            case "valoracion":
+                cursor=db.query(DiaDiarioEntries.TABLE_NAME, null, where, argWhere, null, null, DiaDiarioEntries.VALORACION);
+                return cursor;
+            case "resumen":
+                cursor=db.query(DiaDiarioEntries.TABLE_NAME, null, where, argWhere, null, null, DiaDiarioEntries.RESUMEN);
+                return cursor;
+        }*/
+        return db.query(DiaDiarioEntries.TABLE_NAME, null, null, null, null, null, ordenadoPor);
+
+
+    }
+
+    public static String mostrarDia(DiaDiario d) {
+        return d.toString();
     }
 
     /**

@@ -3,9 +3,11 @@ package net.iessochoa.manuelmartinez.practica5.activities;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,7 +17,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import net.iessochoa.manuelmartinez.practica5.R;
 import net.iessochoa.manuelmartinez.practica5.modelo.DiaDiario;
+import net.iessochoa.manuelmartinez.practica5.modelo.DiarioContract;
 import net.iessochoa.manuelmartinez.practica5.modelo.DiarioDB;
+
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
     public final static int REQUEST_OPTION_NUEVA_ENTRADA_DIARIO = 0;
@@ -26,6 +31,9 @@ public class MainActivity extends AppCompatActivity {
     Button btAcercade;
     Button btAnyadir;
     Button btOrdenar;
+    Button btFecha;
+    Button btValoracion;
+    Button btResumen;
     Button btBorrar;
     TextView tvPrincipal;
 
@@ -40,11 +48,26 @@ public class MainActivity extends AppCompatActivity {
         btOrdenar = findViewById(R.id.btOrdenar);
         btBorrar = findViewById(R.id.btBorrar);
         tvPrincipal = findViewById(R.id.tvPrincipal);
+        btFecha = findViewById(R.id.btFecha);
+        btValoracion = findViewById(R.id.btValoracion);
+        btResumen = findViewById(R.id.btResumen);
+
+
 
         //BASE DE DATOS
         db = new DiarioDB(this);
         db.open();
+        cargarDatosDePrueba();
+        mostrarDias(DiarioContract.DiaDiarioEntries.FECHA);
+
+
+
+    }
+
+    @Override
+    protected void onDestroy() {
         db.close();
+        super.onDestroy();
     }
 
     /**
@@ -103,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
                 agregaDiaDiario();
                 break;
             case R.id.btOrdenar:
-                Toast.makeText(getApplicationContext(), getResources().getText(R.string.tmMensajeERROR), Toast.LENGTH_LONG).show();
+                menuOrdenarPor();
                 break;
             case R.id.btBorrar:
                 Toast.makeText(getApplicationContext(), getResources().getText(R.string.tmMensajeERROR), Toast.LENGTH_LONG).show();
@@ -121,26 +144,45 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * Metodos CRUD del ActivityMain
-     */
+    /*
+     * Metodo para mostrar
+     * */
 
-    private void anyadirDia(DiaDiario d) {
-        if (db.equals(d)) {
-            db.borraDia(d);
+    private void mostrarDias(String ordenadoPor) {
+        Cursor c = db.obtenDiario(ordenadoPor);
+        DiaDiario dia;
+        tvPrincipal.setText("");//limpiamos el campo de texto
+        //Nos aseguramos de que existe al menos un registro
+        if (c.moveToFirst()) {
+            //Recorremos el cursor hasta que no haya más registros
+            do {
+                dia = DiarioDB.deCursorADia(c);
+                //podéis sobrecargar toString en DiaDiario para mostrar los datos
+                tvPrincipal.append(dia.toString() + "\n");
+            } while (c.moveToNext());
         }
+    }
+
+    private View.OnClickListener menuOrdenarPor() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switch (view.getId()) {
+                    case R.id.btFecha:
+                        mostrarDias(DiarioContract.DiaDiarioEntries.FECHA);
+                        break;
+                }
+
+            }
+        };
+
+    }
+
+    private void cargarDatosDePrueba() {
+        DiaDiario d = new DiaDiario(new Date("11/02/2002"),
+                5, "Esto es una mierda",
+                "Ruben dice que ninguno");
         db.insertaDia(d);
-        //adaptador.notifyDataSetChanged();
-    }
-
-    private void borrarDia(DiaDiario d) {
-        db.borraDia(d);
-        //adaptador.notifyDataSetChanged();
-    }
-
-    private void editarDia(final DiaDiario d) {
-        db.actualizaDia(d);
-        //adaptador.notifyDataSetChanged();
     }
 
     @Override
@@ -150,7 +192,9 @@ public class MainActivity extends AppCompatActivity {
             switch (requestCode) {
                 case REQUEST_OPTION_NUEVA_ENTRADA_DIARIO:
                     DiaDiario p = data.getParcelableExtra(EdicionDiaActivity.EXTRA_DIA_A_GUARDAR);
-                    anyadirDia(p);
+                    db.insertaDia(p);
+                    //tvPrincipal=mostrarDias("fecha");
+
                     break;
                 /*case REQUEST_OPTION_EDITAR_POBLACIONES:
                     Poblacion pi = data.getParcelableExtra(PoblacionActivity.EXTRA_POBLACION_A_GUARDAR);

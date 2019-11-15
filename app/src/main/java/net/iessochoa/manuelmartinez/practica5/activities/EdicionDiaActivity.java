@@ -79,6 +79,15 @@ public class EdicionDiaActivity extends AppCompatActivity implements DatePickerD
 
     }
 
+    /**
+     * Metodo para obtener una fecha del dialogo datepicker
+     *
+     * @param view
+     * @param year
+     * @param month
+     * @param dayOfMonth
+     */
+
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         Calendar c = Calendar.getInstance();
@@ -86,7 +95,7 @@ public class EdicionDiaActivity extends AppCompatActivity implements DatePickerD
         c.set(Calendar.MONTH, month);
         c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
         //String currentDateString = DateFormat.getDateInstance(DateFormat.MEDIUM).format(c.getTime());
-        String currentDateString = year + "-" + month + "-" + dayOfMonth;
+        String currentDateString = dayOfMonth + "/" + month + "/"+year;
         etFecha.setText(currentDateString);
     }
 
@@ -95,7 +104,7 @@ public class EdicionDiaActivity extends AppCompatActivity implements DatePickerD
      */
 
     public static Date fechaBDtoFecha(String f) {
-        SimpleDateFormat formatoDelTexto = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat formatoDelTexto = new SimpleDateFormat("dd/MM/yyyy");
         Date fecha = null;
         try {
             fecha = formatoDelTexto.parse(f);
