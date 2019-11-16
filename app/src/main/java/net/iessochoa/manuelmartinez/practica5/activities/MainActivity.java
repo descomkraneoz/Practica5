@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
                 menuOrdenarPor();
                 break;
             case R.id.btBorrar:
-                Toast.makeText(getApplicationContext(), getResources().getText(R.string.tmMensajeERROR), Toast.LENGTH_LONG).show();
+                //db.borraDia(DiarioDB.deCursorADia(db.obtenDiario(DiarioContract.DiaDiarioEntries.ID)));
                 break;
             case R.id.btValorarVida:
                 Toast.makeText(getApplicationContext(), getResources().getText(R.string.tmMensajeERROR), Toast.LENGTH_LONG).show();

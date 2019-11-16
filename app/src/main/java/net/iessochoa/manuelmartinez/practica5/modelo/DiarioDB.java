@@ -14,6 +14,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class DiarioDB {
 
@@ -100,7 +101,7 @@ public class DiarioDB {
     }
 
     public static String fechaToFechaDB(Date fecha) {
-        DateFormat f = new SimpleDateFormat("dd/MM/yyyy");
+        DateFormat f = new SimpleDateFormat("MM/dd/yyyy", Locale.ROOT);
         return f.format(fecha);
     }
 
@@ -128,7 +129,7 @@ public class DiarioDB {
         } catch (SQLiteException sql) {
             String where = DiaDiarioEntries.FECHA + "=?";
             String[] arg = new String[]{fechaToFechaDB(dia.getFecha())};
-            //actualizamos
+            //actualizamos si ya existe en la base de datos
             db.update(DiaDiarioEntries.TABLE_NAME, values, where, arg);
         }
 
@@ -141,31 +142,14 @@ public class DiarioDB {
 
     //Cursor para mostrar un dia
     public Cursor obtenDiario(String ordenadoPor) throws SQLiteException {
-       /* String where = null;
-        String[] argWhere = null;
-        if (ordenadoPor != null) {
-            where = DiaDiarioEntries.ID + "= ?";
-            argWhere = new String[]{ordenadoPor};
-        }
-        Cursor cursor;
-        switch (ordenadoPor){
-            case DiarioContract.DiaDiarioEntries.FECHA:
-                cursor=db.query(DiaDiarioEntries.TABLE_NAME, null, where, argWhere, null, null, DiaDiarioEntries.FECHA);
-                return cursor;
-            case "valoracion":
-                cursor=db.query(DiaDiarioEntries.TABLE_NAME, null, where, argWhere, null, null, DiaDiarioEntries.VALORACION);
-                return cursor;
-            case "resumen":
-                cursor=db.query(DiaDiarioEntries.TABLE_NAME, null, where, argWhere, null, null, DiaDiarioEntries.RESUMEN);
-                return cursor;
-        }*/
-        return db.query(DiaDiarioEntries.TABLE_NAME, null, null, null, null, null, ordenadoPor);
 
-
-    }
-
-    public static String mostrarDia(DiaDiario d) {
-        return d.toString();
+        return db.query(DiaDiarioEntries.TABLE_NAME,
+                null,
+                null,
+                null,
+                null,
+                null,
+                ordenadoPor);
     }
 
     /**
