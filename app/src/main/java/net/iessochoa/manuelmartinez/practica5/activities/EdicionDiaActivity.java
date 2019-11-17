@@ -66,7 +66,7 @@ public class EdicionDiaActivity extends AppCompatActivity implements DatePickerD
             @Override
             public void onClick(View v) {
 
-                DiaDiario d = new DiaDiario(fechaBDtoFecha(etFecha.getText().toString()),
+                DiaDiario d = new DiaDiario(new Date(etFecha.getText().toString()),
                         Integer.parseInt(spValorarVida.getSelectedItem().toString()),
                         etResumenBreve.getText().toString(),
                         etResumenGeneral.getText().toString());
@@ -93,8 +93,8 @@ public class EdicionDiaActivity extends AppCompatActivity implements DatePickerD
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         Calendar c = Calendar.getInstance();
-        c.setTime(new Date());
-        etFecha.setText(fechaToFechaDB(c.getTime()));
+        Date fechaActual = c.getTime();
+        etFecha.setText(fechaToFechaDB(fechaActual));
         c.set(Calendar.YEAR, year);
         c.set(Calendar.MONTH, month);
         c.set(Calendar.DAY_OF_MONTH, dayOfMonth);

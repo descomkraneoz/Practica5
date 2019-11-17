@@ -135,13 +135,15 @@ public class DiarioDB {
     }
 
 
-    //Borra el dia que tenga la id número 1
+    //Borra el dia
     public void borraDia() throws SQLiteException, SQLiteConstraintException {
         Cursor cursor = db.query(DiaDiarioEntries.TABLE_NAME, null, null, null,
-                null, null, DiaDiarioEntries.ID);
-        if (cursor.moveToFirst()) {
-            db.delete(DiaDiarioEntries.TABLE_NAME, DiaDiarioEntries.ID + "= 1", null);
-        }
+                null, null, DiaDiarioEntries.FECHA);
+        cursor.moveToFirst();
+        System.out.println(db.delete(DiaDiarioEntries.TABLE_NAME, DiaDiarioEntries.ID + "=?", null));
+
+        //System.out.println(DiarioDB.deCursorADia(cursor).mostrarDatosBonitos());
+
     }
 
     //Cursor para mostrar un dia

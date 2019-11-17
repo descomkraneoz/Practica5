@@ -6,7 +6,6 @@ import android.os.Parcelable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 import java.util.Objects;
 
 public class DiaDiario implements Parcelable {
@@ -111,7 +110,7 @@ public class DiaDiario implements Parcelable {
     }
 
     public static String fechaToFechaDB(Date fecha) {
-        DateFormat f = new SimpleDateFormat("MM/dd/yyyy", Locale.ROOT);
+        DateFormat f = new SimpleDateFormat("dd/MM/yyyy");
         return f.format(fecha);
     }
 

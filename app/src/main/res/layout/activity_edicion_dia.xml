@@ -74,9 +74,12 @@
 
     <ScrollView
         android:id="@+id/swResumen"
-        android:layout_width="409dp"
-        android:layout_height="411dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -84,7 +87,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <EditText
@@ -92,15 +95,17 @@
                 style="@style/Widget.AppCompat.EditText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@color/colorEditText"
                 android:ems="10"
                 android:gravity="fill_horizontal"
                 android:hint="@string/cuenta"
-                android:textIsSelectable="true"
                 android:inputType="textMultiLine"
                 android:lines="50"
-                android:minLines="2"
                 android:maxLines="30"
-                android:scrollbars="vertical" />
+                android:minLines="2"
+                android:scrollbars="vertical"
+                android:textIsSelectable="true"
+                android:textSize="18sp" />
         </LinearLayout>
     </ScrollView>
 

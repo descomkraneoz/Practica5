@@ -129,9 +129,7 @@ public class MainActivity extends AppCompatActivity {
                 menuOrdenarPor();
                 break;
             case R.id.btBorrar:
-                db.borraDia();
-                Toast.makeText(getApplicationContext(), getResources().getText(R.string.tmMensajeBorrar), Toast.LENGTH_LONG).show();
-                mostrarDias(DiarioContract.DiaDiarioEntries.ID);
+                borrarDias();
                 break;
             case R.id.btValorarVida:
                 Toast.makeText(getApplicationContext(), getResources().getText(R.string.tmMensajeERROR), Toast.LENGTH_LONG).show();
@@ -166,6 +164,16 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Metodo para borrar dias del diario
+     */
+
+    private void borrarDias() {
+        db.borraDia();
+        Toast.makeText(getApplicationContext(), getResources().getText(R.string.tmMensajeBorrar), Toast.LENGTH_LONG).show();
+        mostrarDias(DiarioContract.DiaDiarioEntries.FECHA);
+    }
+
     private View.OnClickListener menuOrdenarPor() {
         return new View.OnClickListener() {
             @Override
@@ -178,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
                         mostrarDias(DiarioContract.DiaDiarioEntries.VALORACION);
                         break;
                     case R.id.btResumen:
-                        mostrarDias(DiarioContract.DiaDiarioEntries.RESUMEN);
+                        mostrarDias(DiarioContract.DiaDiarioEntries.CONTENIDO);
                         break;
                 }
 
@@ -188,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void cargarDatosDePrueba() {
-        DiaDiario d = new DiaDiario(new Date("11/02/2002"),
+        DiaDiario d = new DiaDiario(new Date("02/11/2002"),
                 5, "Examen de Lenguaje de Marcas",
                 "Los temas que entran son HTML y CSS, deberas hacer una página" +
                         " web con la estructura típica, y contestar veinte preguntas de " +
