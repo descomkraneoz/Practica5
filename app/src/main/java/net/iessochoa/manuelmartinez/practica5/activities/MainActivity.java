@@ -25,7 +25,7 @@ import java.util.Date;
 public class MainActivity extends AppCompatActivity {
     public final static int REQUEST_OPTION_NUEVA_ENTRADA_DIARIO = 0;
     public static final int REQUEST_OPTION_EDITAR_ENTRADA_DIARIO = 1;
-    public static String STATE_LISTA_POBLACIONES = "net.iessochoa.manuelmartinez.practica5.activities.EdicionDiaActivity.lista_dias";
+    //public static String STATE_LISTA_DIAS = "net.iessochoa.manuelmartinez.practica5.activities.EdicionDiaActivity.lista_dias";
 
     private DiarioDB db;
     Button btAcercade;
@@ -129,7 +129,9 @@ public class MainActivity extends AppCompatActivity {
                 menuOrdenarPor();
                 break;
             case R.id.btBorrar:
-                //db.borraDia(DiarioDB.deCursorADia(db.obtenDiario(DiarioContract.DiaDiarioEntries.ID)));
+                db.borraDia();
+                Toast.makeText(getApplicationContext(), getResources().getText(R.string.tmMensajeBorrar), Toast.LENGTH_LONG).show();
+                mostrarDias(DiarioContract.DiaDiarioEntries.ID);
                 break;
             case R.id.btValorarVida:
                 Toast.makeText(getApplicationContext(), getResources().getText(R.string.tmMensajeERROR), Toast.LENGTH_LONG).show();
@@ -191,7 +193,13 @@ public class MainActivity extends AppCompatActivity {
                 "Los temas que entran son HTML y CSS, deberas hacer una página" +
                         " web con la estructura típica, y contestar veinte preguntas de " +
                         "tipo test en 30 minutos");
+        DiaDiario i = new DiaDiario(new Date("28/03/2018"),
+                10, "Cumpleaños de Manu",
+                "Fiesta de cumpleaños en Chikipark" +
+                        " traer tortada del Zipi-Zape y comprar regalos en Amazon " +
+                        "lo pasaremos bien");
         db.insertaDia(d);
+        db.insertaDia(i);
     }
 
     @Override

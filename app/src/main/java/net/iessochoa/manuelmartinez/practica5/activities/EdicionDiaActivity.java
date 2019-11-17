@@ -18,6 +18,7 @@ import net.iessochoa.manuelmartinez.practica5.R;
 import net.iessochoa.manuelmartinez.practica5.fragments.DatePickerFragment;
 import net.iessochoa.manuelmartinez.practica5.modelo.DiaDiario;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -52,6 +53,7 @@ public class EdicionDiaActivity extends AppCompatActivity implements DatePickerD
             public void onClick(View v) {
                 DialogFragment datePicker = new DatePickerFragment();
                 datePicker.show(getSupportFragmentManager(), "Fecha");
+
 
             }
         });
@@ -91,16 +93,18 @@ public class EdicionDiaActivity extends AppCompatActivity implements DatePickerD
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         Calendar c = Calendar.getInstance();
+        c.setTime(new Date());
+        etFecha.setText(fechaToFechaDB(c.getTime()));
         c.set(Calendar.YEAR, year);
         c.set(Calendar.MONTH, month);
         c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
         //String currentDateString = DateFormat.getDateInstance(DateFormat.MEDIUM).format(c.getTime());
-        String currentDateString = dayOfMonth + "/" + month + "/"+year;
+        String currentDateString = dayOfMonth + "/" + (month + 1) + "/" + year;
         etFecha.setText(currentDateString);
     }
 
     /**
-     * Metodo para tratar las fechas, recibe un String y devuelve un Date
+     * Metodo para tratar las fechas, recibe un String y devuelve un Date el primero y el segundo al reves
      */
 
     public static Date fechaBDtoFecha(String f) {
@@ -115,6 +119,11 @@ public class EdicionDiaActivity extends AppCompatActivity implements DatePickerD
 
         }
         return fecha;
+    }
+
+    public static String fechaToFechaDB(Date fecha) {
+        DateFormat f = new SimpleDateFormat("MM/dd/yyyy");
+        return f.format(fecha);
     }
 
 }

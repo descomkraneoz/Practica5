@@ -14,7 +14,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
 public class DiarioDB {
 
@@ -101,7 +100,7 @@ public class DiarioDB {
     }
 
     public static String fechaToFechaDB(Date fecha) {
-        DateFormat f = new SimpleDateFormat("MM/dd/yyyy", Locale.ROOT);
+        DateFormat f = new SimpleDateFormat("MM/dd/yyyy");
         return f.format(fecha);
     }
 
@@ -135,9 +134,14 @@ public class DiarioDB {
 
     }
 
-    //Borra un dia pasado por parametro
-    public void borraDia(DiaDiario dia) throws SQLiteException, SQLiteConstraintException {
-        db.delete(DiaDiarioEntries.TABLE_NAME, DiaDiarioEntries.FECHA + "= ?", new String[]{fechaToFechaDB(dia.getFecha())});
+
+    //Borra el dia que tenga la id número 1
+    public void borraDia() throws SQLiteException, SQLiteConstraintException {
+        Cursor cursor = db.query(DiaDiarioEntries.TABLE_NAME, null, null, null,
+                null, null, DiaDiarioEntries.ID);
+        if (cursor.moveToFirst()) {
+            db.delete(DiaDiarioEntries.TABLE_NAME, DiaDiarioEntries.ID + "= 1", null);
+        }
     }
 
     //Cursor para mostrar un dia
