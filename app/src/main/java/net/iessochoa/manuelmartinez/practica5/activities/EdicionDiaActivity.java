@@ -68,6 +68,7 @@ public class EdicionDiaActivity extends AppCompatActivity implements DatePickerD
         spValorarVida = findViewById(R.id.spValorarVida);
         etContenido = findViewById(R.id.etResumenGeneral);
         fabGuardar = findViewById(R.id.fabGuardar);
+        this.setTitle(getResources().getText(R.string.TituloEDA));
 
         //Por defecto mostraremos como día la fecha de hoy,por lo que la mostramos en el textView puesto para ello
         etFecha.setText(new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
@@ -133,8 +134,6 @@ public class EdicionDiaActivity extends AppCompatActivity implements DatePickerD
         c.set(Calendar.YEAR, year);
         c.set(Calendar.MONTH, month);
         c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-        //String currentDateString = DateFormat.getDateInstance(DateFormat.MEDIUM).format(c.getTime());
-        //String currentDateString = dayOfMonth + "/" + (month + 1) + "/" + year;
         EdicionDiaActivity.this.etFecha.setText(new SimpleDateFormat("dd/MM/yyyy").format(c.getTime()));
     }
 

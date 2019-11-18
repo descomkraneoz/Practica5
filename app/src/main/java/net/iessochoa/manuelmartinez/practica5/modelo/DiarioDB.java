@@ -134,7 +134,7 @@ public class DiarioDB {
         //Introducimos los valores del nuevo día. Para ello se indica en cada put el nombre
         // de la columna,dado por la clase DiaDiarioEntry y el valor que tenga
         values.put(DiaDiarioEntries.FECHA, DiarioDB.fechaToFechaDB(dia.getFecha()));
-        values.put(DiaDiarioEntries.VALORACION, dia.getValoracionResumida());
+        values.put(DiaDiarioEntries.VALORACION, dia.getValoracionDia());
         values.put(DiaDiarioEntries.RESUMEN, dia.getResumen());
         values.put(DiaDiarioEntries.CONTENIDO, dia.getContenido());
 

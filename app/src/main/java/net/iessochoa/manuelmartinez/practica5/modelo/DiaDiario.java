@@ -78,7 +78,7 @@ public class DiaDiario implements Parcelable {
         if(valoracionDia>=0 || valoracionDia<=10){
             this.valoracionDia = valoracionDia;
         }else{
-            this.valoracionDia=0;
+            this.valoracionDia = 5;
         }
         this.resumen = resumen;
         this.contenido = contenido;
@@ -89,7 +89,7 @@ public class DiaDiario implements Parcelable {
         if(valoracionDia>=0 || valoracionDia<=10){
             this.valoracionDia = valoracionDia;
         }else{
-            this.valoracionDia=0;
+            this.valoracionDia = 5;
         }
         this.resumen = resumen;
         this.contenido = contenido;

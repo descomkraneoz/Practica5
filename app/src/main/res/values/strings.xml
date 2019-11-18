@@ -21,6 +21,7 @@
     <string name="TituloValorarVida">Valoración Vida</string>
     <string name="mensajeValoraVida">Tu media de valoración es de:</string>
     <string name="tvValoracionEdicionDia">Valora tu vida</string>
+    <string name="TituloEDA">Entrada a la Agenda</string>
 
 
 </resources>
