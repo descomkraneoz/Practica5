@@ -235,7 +235,7 @@ public class MainActivity extends AppCompatActivity {
                         mostrarDias(DiarioContract.DiaDiarioEntries.VALORACION);
                         break;
                     case R.id.btResumen:
-                        mostrarDias(DiarioContract.DiaDiarioEntries.CONTENIDO);
+                        mostrarDias(DiarioContract.DiaDiarioEntries.RESUMEN);
                         break;
                 }
             }
@@ -291,4 +291,5 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
 }

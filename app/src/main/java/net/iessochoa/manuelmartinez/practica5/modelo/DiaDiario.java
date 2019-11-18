@@ -3,6 +3,7 @@ package net.iessochoa.manuelmartinez.practica5.modelo;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 
@@ -120,11 +121,15 @@ public class DiaDiario implements Parcelable {
                 '}';
     }
 
-    public String mostrarDatosBonitos() {
-        return DiarioDB.fechaToFechaDB(fecha) + "\n" +
-                "VALORACIÓN DEL DÍA: " + getValoracionDia() + "\n" +
-                "BREVE RESUMEN: " + resumen + "\n" +
-                "CONTENIDO: " + contenido;
+    protected DiaDiario(Parcel in) {
+        //fecha = new SimpleDateFormat("dd/MM/yyyy").format(fecha).toString();
+        fecha = DiarioDB.fechaBDtoFecha(in.readString());
+        valoracionDia = in.readInt();
+        resumen = in.readString();
+        contenido = in.readString();
+        fotoUri = in.readString();
+        latitud = in.readString();
+        longitud = in.readString();
     }
 
     @Override
@@ -159,14 +164,11 @@ public class DiaDiario implements Parcelable {
         parcel.writeString(longitud);
     }
 
-    protected DiaDiario(Parcel in) {
-        fecha = new Date(in.readString());
-        valoracionDia = in.readInt();
-        resumen = in.readString();
-        contenido = in.readString();
-        fotoUri = in.readString();
-        latitud = in.readString();
-        longitud = in.readString();
+    public String mostrarDatosBonitos() {
+        return new SimpleDateFormat("dd/MM/yyyy").format(fecha) + "\n" +
+                "VALORACIÓN DEL DÍA: " + getValoracionDia() + "\n" +
+                "BREVE RESUMEN: " + resumen + "\n" +
+                "CONTENIDO: " + contenido;
     }
 
     public static final Creator<DiaDiario> CREATOR = new Creator<DiaDiario>() {
