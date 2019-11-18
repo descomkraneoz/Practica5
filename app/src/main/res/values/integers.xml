@@ -2,4 +2,5 @@
 <resources>
     <integer name="maxLineas">2</integer>
     <integer name="maxLongitud">50</integer>
+    <integer name="defaultValorSpiner">5</integer>
 </resources>

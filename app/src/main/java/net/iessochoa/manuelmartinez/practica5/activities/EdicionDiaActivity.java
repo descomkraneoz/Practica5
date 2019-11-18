@@ -1,9 +1,12 @@
 package net.iessochoa.manuelmartinez.practica5.activities;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -18,7 +21,6 @@ import net.iessochoa.manuelmartinez.practica5.R;
 import net.iessochoa.manuelmartinez.practica5.fragments.DatePickerFragment;
 import net.iessochoa.manuelmartinez.practica5.modelo.DiaDiario;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -26,15 +28,34 @@ import java.util.Date;
 
 public class EdicionDiaActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
     public static final String EXTRA_DIA_A_GUARDAR = "net.iessochoa.manuelmartinez.practica5.activities.dia_guardar";
-    //public static final String EXTRA_POBLACION_RECIBIDA_A_EDITAR = "net.iessochoa.manuelmartinez.practica4.PoblacionActivity.poblacion_editar";
+
+    //Constante que indica la posicion por defecto del spinner de valoracion
+    private final int VALORACION_POR_DEFECTO = 5;
 
 
     EditText etFecha;
     Button btFecha;
-    EditText etResumenBreve;
+    EditText etResumen;
     Spinner spValorarVida;
-    EditText etResumenGeneral;
+    EditText etContenido;
     FloatingActionButton fabGuardar;
+
+    //Método que genera un dialogo el cual indica que hay algunos campos incompletos y se deben rellenar
+    private void dialogoCamposIncompletos() {
+        AlertDialog.Builder dlgAcercaDe = new AlertDialog.Builder(this);
+        //Establecemos el título y el mensaje que queremos
+        dlgAcercaDe.setTitle(getResources().getString(R.string.tituloError));
+        dlgAcercaDe.setMessage(getResources().getString(R.string.mensajeErrorCamposIncompletos));
+        // agregamos botón de aceptar al dialogo
+        dlgAcercaDe.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                //Cuando hagan click en el boton saldremos automaticamente,de la misma forma que si pulsa fuera del cuadro de dialogo
+            }
+        });
+        //Mostramos el dialogo
+        dlgAcercaDe.show();
+    }
 
 
     @Override
@@ -43,87 +64,80 @@ public class EdicionDiaActivity extends AppCompatActivity implements DatePickerD
         setContentView(R.layout.activity_edicion_dia);
         etFecha = findViewById(R.id.etFecha);
         btFecha = findViewById(R.id.btFecha);
-        etResumenBreve = findViewById(R.id.etResumenBreve);
+        etResumen = findViewById(R.id.etResumenBreve);
         spValorarVida = findViewById(R.id.spValorarVida);
-        etResumenGeneral = findViewById(R.id.etResumenGeneral);
+        etContenido = findViewById(R.id.etResumenGeneral);
         fabGuardar = findViewById(R.id.fabGuardar);
 
+        //Por defecto mostraremos como día la fecha de hoy,por lo que la mostramos en el textView puesto para ello
+        etFecha.setText(new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
+
+        //Establecemos el adaptador del spinner de las valoraciones a un adaptador el cual obtiene los datos del archivo de recursos de array
+        spValorarVida.setAdapter(ArrayAdapter.createFromResource(this, R.array.valores, android.R.layout.simple_spinner_dropdown_item));
+        //Establecemos la posición por defecto del spinner por la que viene dada en la constante
+        spValorarVida.setSelection(VALORACION_POR_DEFECTO);
+
+        //Le establecemos un click al boton fecha para que habra el Dialogo de fecha
         btFecha.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DialogFragment datePicker = new DatePickerFragment();
-                datePicker.show(getSupportFragmentManager(), "Fecha");
-
-
+                datePicker.show(getSupportFragmentManager(), getResources().getString(R.string.fecha));
             }
         });
 
-        /**
-         * Metodo para guardar y mandar la nueva entrada del diario al MainActivity
-         */
-
+        //Metodo del boton guardar, para guardar y mandar la nueva entrada del diario al MainActivity
         fabGuardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                DiaDiario d = new DiaDiario(new Date(etFecha.getText().toString()),
-                        Integer.parseInt(spValorarVida.getSelectedItem().toString()),
-                        etResumenBreve.getText().toString(),
-                        etResumenGeneral.getText().toString());
-                Intent intent = new Intent();
-                intent.putExtra(EXTRA_DIA_A_GUARDAR, d);
-                setResult(RESULT_OK, intent);
-                finish();
+                //Quitamos los espacios de los EditText del resumen y el contenido
+                etResumen.setText(etResumen.getText().toString().trim());
+                etContenido.setText(etContenido.getText().toString().trim());
+                //Miramos si estos EditText estan vacios,en cuyo caso mostraremos un dialgo indicando que los deben rellenar
+                if ((getResources().getString(R.string.vacio).equals(etResumen.getText().toString())) ||
+                        (getResources().getString(R.string.vacio).equals(etResumen.getText().toString()))) {
+                    //Llamamos al metodo dialogoCamposIncompletos el cual genera el dialogo
+                    dialogoCamposIncompletos();
+                    //En caso de que ambos campos esten completos entramos en este else
+                } else {
+                    //Creamos un intent
+                    Intent resultado = new Intent();
+                    //Obtenemos la fecha del textView y le ponemos el formato que queremos
+                    Date fecha = null;
+                    try {
+                        fecha = new SimpleDateFormat("dd/MM/yyyy").parse(etFecha.getText().toString());
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    //Metemos en el intent un nuevo DiaDiario con los datos que hay en los componentes
+                    resultado.putExtra(EXTRA_DIA_A_GUARDAR, new DiaDiario(fecha, Integer.parseInt((String) spValorarVida.getSelectedItem()),
+                            etResumen.getText().toString(), etContenido.getText().toString()));
+                    //Establecemos el resultado como bueno y pasamos el intent
+                    setResult(RESULT_OK, resultado);
+                    //Terminamos la actividad
+                    finish();
+                }
             }
+
         });
-
-
 
     }
 
     /**
      * Metodo para obtener una fecha del dialogo datepicker
-     *
-     * @param view
-     * @param year
-     * @param month
-     * @param dayOfMonth
      */
-
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         Calendar c = Calendar.getInstance();
-        Date fechaActual = c.getTime();
-        etFecha.setText(fechaToFechaDB(fechaActual));
         c.set(Calendar.YEAR, year);
         c.set(Calendar.MONTH, month);
         c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
         //String currentDateString = DateFormat.getDateInstance(DateFormat.MEDIUM).format(c.getTime());
-        String currentDateString = dayOfMonth + "/" + (month + 1) + "/" + year;
-        etFecha.setText(currentDateString);
+        //String currentDateString = dayOfMonth + "/" + (month + 1) + "/" + year;
+        EdicionDiaActivity.this.etFecha.setText(new SimpleDateFormat("dd/MM/yyyy").format(c.getTime()));
     }
 
-    /**
-     * Metodo para tratar las fechas, recibe un String y devuelve un Date el primero y el segundo al reves
-     */
 
-    public static Date fechaBDtoFecha(String f) {
-        SimpleDateFormat formatoDelTexto = new SimpleDateFormat("dd/MM/yyyy");
-        Date fecha = null;
-        try {
-            fecha = formatoDelTexto.parse(f);
-
-        } catch (ParseException ex) {
-
-            ex.printStackTrace();
-
-        }
-        return fecha;
-    }
-
-    public static String fechaToFechaDB(Date fecha) {
-        DateFormat f = new SimpleDateFormat("MM/dd/yyyy");
-        return f.format(fecha);
-    }
 
 }

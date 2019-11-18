@@ -206,5 +206,26 @@ public class DiarioDB {
         }
     }
 
+    /**
+     * Método que devuelve la media de las valoraciones de los DiaDiario que hay en la base de datos
+     */
+    public int valoraVida() {
+        //Creamos una variable para almacenar la media y la inicializamos en 0
+        int media = 0;
+        //Cremaos una variable para ponerla como sobrenombre de la columna que nos devuelva y poder obtener con facilidad el valor devuelto
+        String sobrenombre = "media";
+        //Ejecutamos la instrucción sql y almacenamos el resultado en un cursor
+        Cursor c = db.rawQuery("select avg(" + DiaDiarioEntries.VALORACION + ") as " + sobrenombre + " from " + DiaDiarioEntries.TABLE_NAME, null);
+        //Miramos si el cursor tiene un resultado
+        if (c.moveToFirst()) {
+            //Establecemos el valor de la variable como el resultado obtenido
+            media = c.getInt(c.getColumnIndex(sobrenombre));
+        }
+        //Cerramos el cursor
+        c.close();
+        //Devolvemos el valor
+        return media;
+    }
+
 
 }

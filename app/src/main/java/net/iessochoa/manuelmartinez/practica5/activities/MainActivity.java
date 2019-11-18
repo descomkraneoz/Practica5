@@ -148,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
                 borrarPrimerDia();
                 break;
             case R.id.btValorarVida:
-                Toast.makeText(getApplicationContext(), getResources().getText(R.string.tmMensajeERROR), Toast.LENGTH_LONG).show();
+                this.valorarVidaDialog();
                 break;
             case R.id.btMostrarDesdeHasta:
                 Toast.makeText(getApplicationContext(), getResources().getText(R.string.tmMensajeERROR), Toast.LENGTH_LONG).show();
@@ -243,20 +243,26 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    /*private void cargarDatosDePrueba() {
-        DiaDiario d = new DiaDiario(new Date("02/11/2002"),
-                5, "Examen de Lenguaje de Marcas",
-                "Los temas que entran son HTML y CSS, deberas hacer una página" +
-                        " web con la estructura típica, y contestar veinte preguntas de " +
-                        "tipo test en 30 minutos");
-        DiaDiario i = new DiaDiario(new Date("28/03/2018"),
-                10, "Cumpleaños de Manu",
-                "Fiesta de cumpleaños en Chikipark" +
-                        " traer tortada del Zipi-Zape y comprar regalos en Amazon " +
-                        "lo pasaremos bien");
-        db.insertaDia(d);
-        db.insertaDia(i);
-    }*/
+    /**
+     * Método que genera un dialogo el cual muestra la media de la puntuacion de los días que hay en la base de datos
+     */
+    private void valorarVidaDialog() {
+        //Creamos un mensaje de alerta para informar al usuario
+        AlertDialog.Builder dialogo = new AlertDialog.Builder(this);
+        //Establecemos el título y el mensaje que queremos
+        dialogo.setTitle(getResources().getString(R.string.TituloValorarVida));
+        dialogo.setMessage(getResources().getString(R.string.mensajeValoraVida) + " " + db.valoraVida());
+        // agregamos botón de aceptar al dialogo
+        dialogo.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                //Cuando hagan click en el boton saldremos automaticamente,de la misma forma que si pulsa fuera del cuadro de dialogo
+                onRestart();
+            }
+        });
+        //Mostramos el dialogo
+        dialogo.show();
+    }
 
     /**
      * Método que se ejecuta cuando se vuelve de una actividad iniciada con startActivityForResult

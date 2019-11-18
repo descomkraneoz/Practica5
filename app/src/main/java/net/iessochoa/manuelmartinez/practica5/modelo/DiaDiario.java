@@ -3,8 +3,6 @@ package net.iessochoa.manuelmartinez.practica5.modelo;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 
@@ -109,16 +107,11 @@ public class DiaDiario implements Parcelable {
         }
     }
 
-    public static String fechaToFechaDB(Date fecha) {
-        DateFormat f = new SimpleDateFormat("dd/MM/yyyy");
-        return f.format(fecha);
-    }
-
     @Override
     public String toString() {
         return "DiaDiario{" +
-                "fecha=" + fechaToFechaDB(fecha) +
-                ", valoracionDia=" + getValoracionResumida() +
+                "fecha=" + DiarioDB.fechaToFechaDB(fecha) +
+                ", valoracionDia=" + getValoracionDia() +
                 ", resumen='" + resumen + '\'' +
                 ", contenido='" + contenido + '\'' +
                 ", fotoUri='" + fotoUri + '\'' +
@@ -128,8 +121,8 @@ public class DiaDiario implements Parcelable {
     }
 
     public String mostrarDatosBonitos() {
-        return fechaToFechaDB(fecha) + "\n" +
-                "VALORACIÓN DEL DÍA: " + getValoracionResumida() + "\n" +
+        return DiarioDB.fechaToFechaDB(fecha) + "\n" +
+                "VALORACIÓN DEL DÍA: " + getValoracionDia() + "\n" +
                 "BREVE RESUMEN: " + resumen + "\n" +
                 "CONTENIDO: " + contenido;
     }
@@ -139,7 +132,7 @@ public class DiaDiario implements Parcelable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         DiaDiario diaDiario = (DiaDiario) o;
-        return fechaToFechaDB(fecha).equals(diaDiario.fechaToFechaDB(fecha));
+        return DiarioDB.fechaToFechaDB(fecha).equals(diaDiario.fecha);
     }
 
     @Override
@@ -157,7 +150,7 @@ public class DiaDiario implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(fechaToFechaDB(fecha));
+        parcel.writeString(DiarioDB.fechaToFechaDB(fecha));
         parcel.writeInt(valoracionDia);
         parcel.writeString(resumen);
         parcel.writeString(contenido);

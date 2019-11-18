@@ -15,6 +15,12 @@
     <string name="resumenbreve">Resumen breve del día</string>
     <string name="cuenta">Cuenta a tu diario tu día ...</string>
     <string name="tmMensajeBorrar">Se ha borrado la entrada al diario</string>
+    <string name="vacio" />
+    <string name="tituloError">Error</string>
+    <string name="mensajeErrorCamposIncompletos">Todos los campos deben de estar completos</string>
+    <string name="TituloValorarVida">Valoración Vida</string>
+    <string name="mensajeValoraVida">Tu media de valoración es de:</string>
+    <string name="tvValoracionEdicionDia">Valora tu vida</string>
 
 
 </resources>
