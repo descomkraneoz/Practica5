@@ -7,7 +7,6 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,11 +33,9 @@ public class MainActivity extends AppCompatActivity {
     private String ordenActualDias;
     Button btAnyadir;
     Button btOrdenar;
-    Button btFecha;
-    Button btValoracion;
-    Button btResumen;
     Button btBorrar;
     TextView tvPrincipal;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,9 +46,6 @@ public class MainActivity extends AppCompatActivity {
         btOrdenar = findViewById(R.id.btOrdenar);
         btBorrar = findViewById(R.id.btBorrar);
         tvPrincipal = findViewById(R.id.tvPrincipal);
-        btFecha = findViewById(R.id.btFecha);
-        btValoracion = findViewById(R.id.btValoracion);
-        btResumen = findViewById(R.id.btResumen);
 
 
         //BASE DE DATOS, inicializamos y cargamos datos de prueba
@@ -141,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.btOrdenar:
                 //Llama al metodo para ordenar según unos parámetros
-                menuOrdenarPor();
+                dialogoOrdenarPor();
                 break;
             case R.id.btBorrar:
                 //Llama al metodo para borrar el primer dia
@@ -219,27 +213,45 @@ public class MainActivity extends AppCompatActivity {
             //Eliminamos la tupla de la base de datos obteniendo la información del cursor
             db.borraDia(DiarioDB.deCursorADia(c));
         }
-        Toast.makeText(getApplicationContext(), getResources().getText(R.string.tmMensajeBorrar), Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), getResources().getText(R.string.tmMensajeBorrar),
+                Toast.LENGTH_LONG).show();
         mostrarDias(DiarioContract.DiaDiarioEntries.FECHA);
     }
 
-    private View.OnClickListener menuOrdenarPor() {
-        return new View.OnClickListener() {
+    /**
+     * Metodo para ordenar dias del diario
+     */
+
+    private void dialogoOrdenarPor() {
+
+        //array de elementos
+        final CharSequence[] itemsDialogo = getResources().getStringArray(R.array.item_menu);
+
+        AlertDialog.Builder dialogo = new AlertDialog.Builder(MainActivity.this);
+        dialogo.setTitle(getResources().getString(R.string.ordenarPor));
+        dialogo.setItems(itemsDialogo, new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                switch (view.getId()) {
-                    case R.id.btFecha:
+            public void onClick(DialogInterface dialog, int item) {
+                switch (item) {
+                    case 0:
                         mostrarDias(DiarioContract.DiaDiarioEntries.FECHA);
+                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.ordenarPorFecha),
+                                Toast.LENGTH_LONG).show();
                         break;
-                    case R.id.btValoracion:
+                    case 1:
                         mostrarDias(DiarioContract.DiaDiarioEntries.VALORACION);
+                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.ordenarPorValoracion),
+                                Toast.LENGTH_LONG).show();
                         break;
-                    case R.id.btResumen:
+                    case 2:
                         mostrarDias(DiarioContract.DiaDiarioEntries.RESUMEN);
+                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.ordenarPorResumen),
+                                Toast.LENGTH_LONG).show();
                         break;
                 }
+                dialog.dismiss();
             }
-        };
+        }).show();
 
     }
 

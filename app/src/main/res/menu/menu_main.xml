@@ -15,19 +15,7 @@
         android:orderInCategory="3"
         android:title="@string/ordenar"
         android:visible="true"
-        app:showAsAction="ifRoom">
-        <menu>
-            <item
-                android:id="@+id/btFecha"
-                android:title="@string/fecha" />
-            <item
-                android:id="@+id/btValoracion"
-                android:title="@string/valoracion" />
-            <item
-                android:id="@+id/btResumen"
-                android:title="@string/resumen" />
-        </menu>
-    </item>
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/btAcercade"
         android:orderInCategory="7"

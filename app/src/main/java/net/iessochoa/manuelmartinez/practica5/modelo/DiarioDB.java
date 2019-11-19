@@ -184,7 +184,7 @@ public class DiarioDB {
                 null,
                 null,
                 null,
-                ordenadoPor);
+                ordenadoPor + " DESC");
     }
 
     /**
