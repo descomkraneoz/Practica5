@@ -191,12 +191,12 @@ public class DiarioDB {
      * Metodo que inserta en la base de datos los siguientes datos
      */
     public void cargaDatosPrueba() {
-        DiaDiario[] dias = {new DiaDiario(new Date("02/11/2002"),
+        DiaDiario[] dias = {new DiaDiario(new Date("11/02/2002"),
                 5, "Examen de Lenguaje de Marcas",
                 "Los temas que entran son HTML y CSS, deberas hacer una página" +
                         " web con la estructura típica, y contestar veinte preguntas de " +
                         "tipo test en 30 minutos"),
-                new DiaDiario(new Date("28/03/2018"),
+                new DiaDiario(new Date("03/28/2018"),
                         10, "Cumpleaños de Manu",
                         "Fiesta de cumpleaños en Chikipark" +
                                 " traer tortada del Zipi-Zape y comprar regalos en Amazon " +

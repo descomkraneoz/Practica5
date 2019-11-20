@@ -145,7 +145,20 @@ public class DiaDiario implements Parcelable {
         return Objects.hash(fecha);
     }
 
-    //Hacemos los metodos parcelable
+    /**
+     * Metodo para mostrar los datos formateados
+     */
+
+    public String mostrarDatosBonitos() {
+        return new SimpleDateFormat("dd/MM/yyyy").format(fecha) + "\n" +
+                "VALORACIÓN DEL DÍA: " + getValoracionDia() + "\n" +
+                "BREVE RESUMEN: " + resumen + "\n" +
+                "CONTENIDO: " + contenido;
+    }
+
+    /**
+     * Hacemos los metodos parcelable
+     */
 
 
     @Override
@@ -162,13 +175,6 @@ public class DiaDiario implements Parcelable {
         parcel.writeString(fotoUri);
         parcel.writeString(latitud);
         parcel.writeString(longitud);
-    }
-
-    public String mostrarDatosBonitos() {
-        return new SimpleDateFormat("dd/MM/yyyy").format(fecha) + "\n" +
-                "VALORACIÓN DEL DÍA: " + getValoracionDia() + "\n" +
-                "BREVE RESUMEN: " + resumen + "\n" +
-                "CONTENIDO: " + contenido;
     }
 
     public static final Creator<DiaDiario> CREATOR = new Creator<DiaDiario>() {

@@ -22,9 +22,6 @@ import net.iessochoa.manuelmartinez.practica5.modelo.DiarioDB;
 public class MainActivity extends AppCompatActivity {
     //Constante para mandar datos de una actividad a otra cuando se edita o crea una nueva entrada al diario
     public final static int REQUEST_OPTION_NUEVA_ENTRADA_DIARIO = 0;
-    //proximamente usare estas dos ctes.
-    //public static final int REQUEST_OPTION_EDITAR_ENTRADA_DIARIO = 1;
-    //public static String STATE_LISTA_DIAS = "net.iessochoa.manuelmartinez.practica5.activities.EdicionDiaActivity.lista_dias";
     //Declaracion de los distintos elementos
     Button btAcercade;
     //Variable que almacena la base de datos
@@ -179,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Metodo para mostrar en el textview del MainActivity los datos de la base de datos
-     * en funcion a un orden que me pasan
+     * en funcion a un orden que me pasan por parametro
      */
 
     private void mostrarDias(String ordenadoPor) {
@@ -294,12 +291,6 @@ public class MainActivity extends AppCompatActivity {
                     //Usamos el metodo mostrarDias para enseñar la base de datos con todos los datos
                     mostrarDias();
                     break;
-                //De momento esta parte no la usamos
-                /*case REQUEST_OPTION_EDITAR_POBLACIONES:
-                    Poblacion pi = data.getParcelableExtra(PoblacionActivity.EXTRA_POBLACION_A_GUARDAR);
-                    editarPoblacion(pi);
-                    lvListaPoblaciones.getAdapter();
-                    break;*/
             }
         }
     }
